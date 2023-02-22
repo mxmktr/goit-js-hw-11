@@ -27,7 +27,7 @@ export default class ApiService {
 
         if (totalElements === 0) {
           throw new Error(
-            "You are crazy! We don't have pictures with this name!"
+            'Sorry, there are no images matching your search query. Please try again.'
           );
         }
 
