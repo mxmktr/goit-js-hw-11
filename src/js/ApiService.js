@@ -23,20 +23,26 @@ export default class ApiService {
         return response.data;
       })
       .then(data => {
-        const totalElements = data.totalHits;
+        this.params.totalHits = data.totalHits;
 
-        if (totalElements === 0) {
+        if (this.params.totalHits === 0) {
           throw new Error(
             'Sorry, there are no images matching your search query. Please try again.'
           );
         }
 
-        this.numberOfPages = Math.ceil(totalElements / this.params.per_page);
+        this.numberOfPages = Math.ceil(
+          this.params.totalHits / this.params.per_page
+        );
         return data.hits;
       });
   }
 
   nextPage() {
     this.params.page += 1;
+  }
+
+  setFirstPage() {
+    this.params.page = 1;
   }
 }

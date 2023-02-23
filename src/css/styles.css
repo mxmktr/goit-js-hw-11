@@ -20,10 +20,6 @@ body {
   margin-bottom: 10px;
 }
 
-.gallery {
-  margin-bottom: 10px;
-}
-
 .load-more {
   display: block;
   margin: 0 auto;
@@ -31,4 +27,41 @@ body {
 
 .load-more.is-hidden {
   display: none;
+}
+
+.gallery {
+  padding: 20px 20px;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 20px;
+}
+
+.photo-card {
+  flex-basis: calc((100% - 40px) / 3);
+}
+
+.info {
+  display: flex;
+  justify-content: center;
+}
+
+.info .info-item:not(:last-child) {
+  margin-right: 10px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-size: 14px;
+}
+
+img {
+  display: block;
+  height: auto;
+  width: 100%;
 }
