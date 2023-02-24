@@ -4,7 +4,6 @@ import { markup, resetGallery } from './js/markup';
 import './css/styles.css';
 
 const form = document.getElementById('search-form');
-const submitBtn = document.querySelector('.search-form button');
 const gallery = document.querySelector('.gallery');
 const loadBtn = document.querySelector('.load-more');
 

@@ -15,9 +15,9 @@ export default class ApiService {
 
   constructor() {}
 
-  getImages(query) {
+  async getImages(query) {
     this.params.q = query;
-    return axios
+    return await axios
       .get(`${this.URL}${new URLSearchParams(this.params)}`)
       .then(response => {
         return response.data;
