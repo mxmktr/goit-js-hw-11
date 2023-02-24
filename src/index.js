@@ -1,5 +1,6 @@
-import Notiflix from 'notiflix';
 import ApiService from './js/ApiService';
+import Notification from './js/Notification';
+import { markup, resetGallery } from './js/markup';
 import './css/styles.css';
 
 const form = document.getElementById('search-form');
@@ -8,7 +9,6 @@ const gallery = document.querySelector('.gallery');
 const loadBtn = document.querySelector('.load-more');
 
 const apiService = new ApiService();
-const notiflixOptions = { timeout: 2000 };
 
 let searchQueryValue = '';
 
@@ -24,10 +24,7 @@ form.addEventListener('submit', event => {
   searchQueryValue = currentForm.elements.searchQuery.value.trim();
 
   if (!searchQueryValue) {
-    Notiflix.Notify.failure(
-      'Sorry, there are no images matching your search query. Please try again.',
-      notiflixOptions
-    );
+    Notification.failure();
     return;
   }
 
@@ -37,25 +34,19 @@ form.addEventListener('submit', event => {
     .then(data => {
       gallery.innerHTML = markup(data);
       if (apiService.numberOfPages === 1) {
-        Notiflix.Notify.success(
-          `Hooray! We found ${apiService.params.totalHits} images.`,
-          notiflixOptions
+        Notification.success(
+          `Hooray! We found ${apiService.params.totalHits} images.`
         );
-        setTimeout(() => {
-          Notiflix.Notify.info(
-            "We're sorry, but you've reached the end of search results.",
-            notiflixOptions
-          );
-        }, 1000);
+
+        setTimeout(() => Notification.info(), 1000);
       } else {
-        Notiflix.Notify.success(
-          `Hooray! We found ${apiService.params.totalHits} images.`,
-          notiflixOptions
+        Notification.success(
+          `Hooray! We found ${apiService.params.totalHits} images.`
         );
         loadBtn.classList.remove('is-hidden');
       }
     })
-    .catch(error => Notiflix.Notify.failure(error.message, notiflixOptions));
+    .catch(() => Notification.failure());
 });
 
 loadBtn.addEventListener('click', () => {
@@ -77,22 +68,3 @@ loadBtn.addEventListener('click', () => {
     );
   }
 });
-
-function markup(data) {
-  return data.reduce(
-    (
-      markup,
-      { webformatURL, largeImageURL, tags, likes, views, comments, downloads }
-    ) => {
-      return (
-        `<div class="photo-card"><img src="${webformatURL}" alt="${tags}" loading="lazy"/><div class="info"><p class="info-item"><b>Likes</b>${likes}</p><p class="info-item"><b>Views</b>${views}</p><p class="info-item"><b>Comments</b>${comments}</p><p class="info-item"><b>Downloads</b>${downloads}</p></div></div>` +
-        markup
-      );
-    },
-    ''
-  );
-}
-
-function resetGallery() {
-  gallery.innerHTML = '';
-}

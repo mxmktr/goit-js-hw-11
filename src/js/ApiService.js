@@ -26,9 +26,7 @@ export default class ApiService {
         this.params.totalHits = data.totalHits;
 
         if (this.params.totalHits === 0) {
-          throw new Error(
-            'Sorry, there are no images matching your search query. Please try again.'
-          );
+          throw new Error();
         }
 
         this.numberOfPages = Math.ceil(
